@@ -16,7 +16,7 @@
                         <th>Nama Penulis</th>
                         <th>Judul</th>
                         <th>Nama Peminjam</th>
-                        <th>Tanggal Pinjam & status</th>
+                        <th>Tanggal Pinjam & Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -38,19 +38,24 @@
                         </td>
                         <td>
                             @if($book->status === 'dipinjam' && $book->peminjam === auth()->user()->name)
-                            <form action="{{ route('book.return', $book->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-success">Kembalikan buku</button>
-                            </form>
+                                <form action="{{ route('book.return', $book->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success">Kembalikan buku</button>
+                                </form>
                             @elseif($book->status === 'dibooking' && $book->peminjam === auth()->user()->name)
-                            <form action="{{ route('book.StatusDipinjam', $book->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="tgl_pinjam">Tanggal Pinjam</label>
-                                    <input type="date" class="form-control" id="tgl_pinjam" name="tgl_pinjam" required>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary">Pinjam Buku</button>
-                            </form>
+                                <form action="{{ route('book.StatusDipinjam', $book->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="tgl_pinjam">Tanggal Pinjam</label>
+                                        <input type="date" class="form-control" id="tgl_pinjam" name="tgl_pinjam" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-primary">Pinjam Buku</button>
+                                </form>
+                            @endif
+
+                            <!-- Tampilkan tombol "Berikan Feedback" hanya jika status buku adalah "dipinjam" atau "dikembalikan" -->
+                            @if($book->status === 'dipinjam' || $book->status === 'dikembalikan')
+                                <a href="{{ route('feedback.create', $book->id) }}" class="btn btn-sm btn-info"><i class="fa-solid fa-comment"></i> Feedback</a>
                             @endif
                         </td>
                     </tr>
@@ -60,4 +65,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

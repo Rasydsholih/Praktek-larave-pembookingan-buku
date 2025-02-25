@@ -22,7 +22,7 @@
                     @foreach($histories as $history)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $history->book->judul }}</td> <!-- Perbaikan di sini -->
+                        <td>{{ $history->book->judul }}</td> 
                         <td>{{ $history->tgl_pinjam }}</td>
                         <td>{{ $history->tgl_kembali }}</td>
                         <td>{{ $history->status }}</td>

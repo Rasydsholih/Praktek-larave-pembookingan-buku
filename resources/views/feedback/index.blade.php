@@ -6,22 +6,21 @@
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th>Name</th>
+                <th>Nama</th>
                 <th>Email</th>
-                <th>Message</th>
-                <th>Date</th>
+                <th>Pesan</th>
+                <th>Tanggal</th>
                 <th>Action</th>
-            </tr>
+            </tr>   
         </thead>
         <tbody>
         @foreach($feedbacks as $feedback)
                 <tr>
-                    <td>{{ $feedback->name }}</td>
-                    <td>{{ $feedback->email }}</td>
-                    <td>{{ $feedback->message }}</td>
-                    <td>{{ $feedback->created_at }}</td>
+                    <td>{{ $feedback->user->name ?? 'N/A' }}</td>
+                    <td>{{ $feedback->user->email ?? 'N/A' }}</td>
+                    <td> {{$feedback->message }}</td>
+                    <td>{{ $feedback->created_at->format('d M Y') }}</td>
                     <td>
-                   
                         <form id="delete-form-{{ $feedback->id }}" action="{{ route('feedback.destroy', $feedback->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
@@ -30,6 +29,7 @@
                     </td>
                 </tr>
             @endforeach
+
         </tbody>
     </table>
 </div>

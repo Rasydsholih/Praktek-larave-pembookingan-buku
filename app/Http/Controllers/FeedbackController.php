@@ -4,35 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Feedback;
+use App\Models\Book;
 
 class FeedbackController extends Controller
 {
 
     public function index()
     {
-        $feedbacks = Feedback::all();
+        $feedbacks = Feedback::with(['user', 'book'])->get();
         return view('feedback.index', compact('feedbacks'));
     }
-    public function create()
+// app/Http/Controllers/FeedbackController.php
+// app/Http/Controllers/FeedbackController.php
+    public function create($book_id)
     {
-        return view('feedback.create');
+        $book = Book::findOrFail($book_id);
+        return view('feedback.create', compact('book'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'message' => 'required|string',
+            'book_id' => 'required|exists:books,id',
+            'message' => 'required|string|max:1000',
         ]);
 
         Feedback::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'book_id' => $request->book_id,
+            'user_id' => auth()->id(),
             'message' => $request->message,
         ]);
 
-        return redirect()->route('index')->with('success', 'Feedback submitted successfully!');
+        return redirect()->route('book.index')->with('success', 'Feedback berhasil dikirim!');
     }
 
     public function destroy($id)

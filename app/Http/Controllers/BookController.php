@@ -73,7 +73,7 @@ class BookController extends Controller
         
     }
 
-    /**
+    /**~
      * Show the form for creating a new resource.
      */
     public function create()
@@ -294,14 +294,21 @@ class BookController extends Controller
                 'book_id' => $book->id,
                 'user_id' => auth()->id(),
                 'status' => 'dikembalikan',
-                'tgl_pinjam' => $tglPinjamSebelumnya, // Tidak lagi null
+                'tgl_pinjam' => $tglPinjamSebelumnya,
                 'tgl_kembali' => now(),
             ]);
     
-            return redirect()->route('book.bukusaya')->with('success', 'Buku berhasil dikembalikan!');
+            // Redirect dengan alert untuk menanyakan apakah ingin memberikan feedback
+            return redirect()->route('book.confirmFeedback', $book->id)->with('success', 'Buku ' . $book->judul . ' berhasil dikembalikan, apakah ingin memberikan feedback?');
         }
     
         return redirect()->route('book.bukusaya')->with('error', 'Anda tidak dapat mengembalikan buku ini.');
+    }
+
+    public function confirmFeedback($id)
+    {
+        $book = Book::findOrFail($id);
+        return view('confirmFeedback', compact('book'));
     }
     
 

@@ -84,18 +84,18 @@
                     @if(auth()->user()->role === 'user')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Request & Feedback
+                                Request
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" href="{{route('bookrequest.create')}}">Request Buku</a></li>
-                                <li><a class="dropdown-item" href="{{route('feedback.create')}}">Kirim Feedback</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{route('bookrequest.show', auth()->user()->id)}}">
+                                        <i class="fa-solid fa-envelope"></i> data request
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('bookrequest.show', auth()->user()->id)}}">
-                                <i class="fa-solid fa-envelope">.</i>
-                            </a>
-                        </li>
+
                     @endif
                 </ul>
 
@@ -117,7 +117,7 @@
                     @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                                <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

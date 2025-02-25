@@ -39,14 +39,16 @@ Route::prefix('/book')->name('book.')->group(function() {
     Route::patch('/update/{id}', [BookController::class, 'update'])->name('update');
     Route::delete('/destroy/{id}', [BookController::class, 'destroy'])->name('destroy');
     Route::post('/return/{id}', [BookController::class, 'return'])->name('return');
+
     Route::middleware('IsAdmin')->group(function () {  
         Route::get('/riwayat-Peminjaman', [BookController::class, 'riwayatPeminjaman'])->name('riwayatPeminjaman');
     });
+    
     Route::post('/change-status/{id}', [BookController::class, 'StatusDipinjam'])->name('StatusDipinjam');
-
     Route::post('/borrows/{id}/restore', [BookController::class, 'restore'])->name('restore');
     Route::delete('/borrows/{id}/forcedelete', [BookController::class, 'forcedelete'])->name('forcedelete');
     Route::get('/history', [BookController::class, 'history'])->name('history');
+    Route::get('/return/confirmFeedback/{id}', [BookController::class, 'confirmFeedback'])->name('confirmFeedback');
 });
 
 Route::prefix('/bookrequest')->name('bookrequest.')->group(function() {
@@ -59,9 +61,16 @@ Route::prefix('/bookrequest')->name('bookrequest.')->group(function() {
 });
 
 Route::prefix('/feedback')->name('feedback.')->group(function() {
-    Route::get('/feedback', [FeedbackController::class, 'create'])->name('create');
-    Route::post('/feedback', [FeedbackController::class, 'store'])->name('store');
+    // Tampilkan form feedback (GET)
+    Route::get('/create/{book_id}', [FeedbackController::class, 'create'])->name('create');
+
+    // Simpan feedback (POST)
+    Route::post('/store', [FeedbackController::class, 'store'])->name('store');
+
+    // Tampilkan daftar feedback (GET)
     Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('index');
+
+    // Hapus feedback (DELETE)
     Route::delete('/feedbacks/{id}', [FeedbackController::class, 'destroy'])->name('destroy');
 });
 

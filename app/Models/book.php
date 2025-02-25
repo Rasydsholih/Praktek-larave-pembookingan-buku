@@ -33,6 +33,11 @@ class book extends Model
     {
         return $this->hasMany(BookHistory::class);
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
     
     
     
